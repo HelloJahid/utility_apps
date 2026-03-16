@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd austaka && npm install && npm run build",
+  "outputDirectory": "austaka/dist",
+  "framework": null
+}
