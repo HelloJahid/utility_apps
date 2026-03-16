@@ -94,19 +94,21 @@ export default function App() {
         {/* Header */}
         <div className="card-header">
           <h1 className="app-title">AusTaka</h1>
-          <p className="app-subtitle">Australia → Bangladesh Remittance Calculator</p>
+          <p className="app-subtitle">🇦🇺 Australia → Bangladesh 🇧🇩 Remittance Calculator</p>
         </div>
 
         {/* Mode selector */}
         <div className="mode-selector">
           <button
             className={`mode-btn${mode === 'send' ? ' mode-btn--active' : ''}`}
+            aria-pressed={mode === 'send'}
             onClick={() => handleModeChange('send')}
           >
             Send AUD
           </button>
           <button
             className={`mode-btn${mode === 'target' ? ' mode-btn--active' : ''}`}
+            aria-pressed={mode === 'target'}
             onClick={() => handleModeChange('target')}
           >
             Target BDT
@@ -132,7 +134,7 @@ export default function App() {
               error={rateError}
             />
             <InputField
-              label="Remittance Incentive (%)"
+              label="Incentive (%)"
               value={incentive}
               onChange={setIncentive}
               placeholder="e.g. 2.5"
@@ -167,7 +169,7 @@ export default function App() {
                 <div className="results-breakdown">
                   <ResultRow label="Target amount" value={`৳ ${fmt(amountNum)}`} />
                   <ResultRow label="Exchange rate" value={`1 AUD = ৳ ${fmt(rateNum)}`} />
-                  <ResultRow label="Converted amount before incentive" value={`৳ ${fmt(result.convertedBDT)}`} />
+                  <ResultRow label="Pre-incentive amount" value={`৳ ${fmt(result.convertedBDT)}`} />
                   <ResultRow label="Remittance incentive" value={`+ ৳ ${fmt(result.incentiveBDT)}`} />
                   <ResultRow label="Final received" value={`৳ ${fmt(result.finalReceivedBDT)}`} primary />
                 </div>
@@ -175,13 +177,11 @@ export default function App() {
             )}
           </div>
         ) : (
-          amount !== '' && !isValid && !amountError ? null : (
-            <div className="results-empty">
-              {amount === ''
-                ? `Enter ${mode === 'send' ? 'an AUD amount' : 'a target BDT amount'} to see the calculation`
-                : null}
-            </div>
-          )
+          <div className="results-empty">
+            {amount === '' && (
+              <p>{mode === 'send' ? 'Enter an AUD amount' : 'Enter a target BDT amount'} to see the calculation</p>
+            )}
+          </div>
         )}
 
         <p className="disclaimer">
